@@ -4,3 +4,4 @@ ColumnLimit: 200
 PointerAlignment: Left
 UseTab: Never
 NamespaceIndentation: All
+BreakBeforeBraces: Never

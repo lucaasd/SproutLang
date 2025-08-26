@@ -3,31 +3,39 @@
 
 #include <string>
 
-enum class TokenType {
-    IDENTIFIER,
-    CLASS,
-    STRUCT,
-    FUNCTION,
-    VAR,
-    CHAR,
-    CHAR_LITERAL,
-    CHAR_ARRAY_LITERAL,
-    FLOAT_LITERAL,
-    FLOAT,
-    INT_LITERAL,
-    INT,
-    ARRAY,
-    POINTER,
-    ADD,
-    SUB,
-    MUL,
-    DIV,
-    MODULUS,
-};
+namespace lexer {
 
-struct Token {
-    std::string text;
-    TokenType value;
-};
+    enum class TokenType {
+        UNKNOWN,
+        IDENTIFIER,
+        CLASS,
+        STRUCT,
+        FUNCTION,
+        VAR,
+        IF,
+        ELSE,
+        FOR,
+        WHILE,
+        CHAR,
+        CHAR_LITERAL,
+        CHAR_ARRAY_LITERAL,
+        FLOAT_LITERAL,
+        FLOAT,
+        INT_LITERAL,
+        INT,
+        ARRAY,
+        POINTER,
+        ADD,
+        SUB,
+        MUL,
+        DIV,
+        MODULUS,
+    };
 
+    struct Token {
+        std::string text;
+        TokenType type;
+    };
+
+} // namespace lexer
 #endif
