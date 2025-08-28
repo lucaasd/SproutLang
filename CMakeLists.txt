@@ -14,3 +14,10 @@ add_library(SproutCompiler ${SPROUT_COMPILER})
 add_executable(SproutCompilerTests ${SPROUT_COMPILER_TESTS})
 target_link_libraries(SproutCompilerTests PRIVATE GTest::gtest GTest::gtest_main SproutCompiler)
 target_include_directories(SproutCompilerTests PRIVATE src/)
+
+target_compile_options(SproutCompiler PRIVATE
+-Wall
+-Wextra
+-Wpedantic
+-Wuninitialized
+)

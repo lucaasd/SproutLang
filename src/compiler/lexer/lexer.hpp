@@ -23,8 +23,9 @@ public:
   char CurrentChar();
   void advance();
   void keywordOrIdentifier();
+  void digit();
   size_t index;
 };
 
+} // namespace lexer
 #endif
-}

@@ -29,8 +29,12 @@ namespace lexer {
                 }
             } else if (std::isalpha(CurrentChar())) {
                 keywordOrIdentifier();
+            } else if (std::isdigit(CurrentChar()))
+            {
+                digit();
+            } else {
+
             }
-            advance();
         }
     }
 
@@ -40,6 +44,52 @@ namespace lexer {
         if (index < input->size())
         {
             index++;
+        }
+    }
+
+    void Lexer::digit()
+    {
+        int start = index;
+        while (std::isdigit(CurrentChar()))
+        {
+            advance();
+        }
+
+        int len = index - start;
+
+        std::string integerPart = input->substr(start, len);
+
+        if (CurrentChar() == '.')
+        {
+            advance();
+            int start = index;
+            while (std::isdigit(CurrentChar()))
+            {
+                advance();
+            }
+
+            int len = index - start;
+
+            std::string decimalPart = input->substr(start, len);
+
+            {
+                int start = index;
+
+                while (std::isalpha(CurrentChar()))
+                {
+                    advance();
+                }
+
+                int len = index - start;
+
+                std::string suffix = input->substr(start, len);
+
+
+
+                tokens.push_back(Token{integerPart + "." + decimalPart + "." + suffix, TokenType::FLOAT_LITERAL});
+            }
+        } else {
+            tokens.push_back(Token{integerPart, TokenType::INT_LITERAL});
         }
     }
 
