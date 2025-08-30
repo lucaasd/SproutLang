@@ -30,6 +30,10 @@ namespace lexer {
         MUL,
         DIV,
         MODULUS,
+        LT,
+        GT,
+        LEQ,
+        GEQ,
     };
 
     struct Token {
