@@ -2,6 +2,7 @@
 #include "tokens.hpp"
 #include <cctype>
 #include <string>
+#include <iostream>
 
 namespace lexer {
 // clang-format off
@@ -15,13 +16,31 @@ namespace lexer {
         {"for", TokenType::FOR},
         {"while", TokenType::WHILE}
     };
-    const std::map<std::string, TokenType> singleCharTokens;
-    const std::map<std::string, TokenType> lookaheadTokens;
+
+    const std::map<std::string, TokenType> singleCharTokens = {
+        {"+", TokenType::ADD},
+        {"-", TokenType::SUB},
+        {"*", TokenType::MUL},
+        {"/", TokenType::DIV},
+        {"%", TokenType::MODULUS},
+        {"<", TokenType::LT},
+        {"=", TokenType::ASSIGN},
+        {">", TokenType::GT},
+    };
+
+    const std::map<std::string, TokenType> lookaheadTokens {
+        {"<=", TokenType::LEQ},
+        {">=", TokenType::GEQ},
+        {"==", TokenType::EQ}
+
+    };
+
     const std::map<std::string, TokenType> commentsCharTokens;
 
     Lexer::~Lexer() {}
 
-    void Lexer::tokenize() {
+    void Lexer::tokenize()
+    {
         while (CurrentChar() != '\0') {
             if (std::isspace(CurrentChar())) {
                 while (std::isspace(CurrentChar())) {
@@ -33,14 +52,15 @@ namespace lexer {
             {
                 digit();
             } else {
-
+                special();
             }
         }
     }
 
     char Lexer::CurrentChar() { return index < input->size() ? (*input)[index] : '\0'; }
 
-    void Lexer::advance() {
+    void Lexer::advance()
+    {
         if (index < input->size())
         {
             index++;
@@ -93,7 +113,8 @@ namespace lexer {
         }
     }
 
-    void Lexer::keywordOrIdentifier() {
+    void Lexer::keywordOrIdentifier()
+    {
         int start = index;
         while (std::isalpha(CurrentChar())) {
             advance();
@@ -110,5 +131,28 @@ namespace lexer {
         } else {
             tokens.push_back(Token{text, TokenType::IDENTIFIER});
         }
+    }
+
+    void Lexer::special()
+    {
+        int start = index;
+
+        auto it = singleCharTokens.find(std::string(1, CurrentChar()));
+        advance();
+
+        if (it != singleCharTokens.end())
+        {
+
+            std::string key = input->substr(start, 2);
+
+            std::cout << "Key: " << key << "\n";
+
+            auto it2 = lookaheadTokens.find(key);
+
+            it2 != lookaheadTokens.end() ? tokens.push_back(Token{it2->first, it2->second}) : tokens.push_back(Token{it->first, it->second});
+        } else {
+            tokens.push_back(Token{"unknown", TokenType::UNKNOWN});
+        }
+        advance();
     }
 } // namespace lexer

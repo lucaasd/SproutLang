@@ -1,9 +1,10 @@
-#include "../src/compiler/lexer/lexer.hpp"
-#include "compiler/lexer/tokens.hpp"
+#include "../../src/compiler/lexer/lexer.hpp"
+#include "../../src/compiler/lexer/tokens.hpp"
 #include "gtest/gtest.h"
+#include <iostream>
 
 TEST(LexerTests, TestKeywordOrIdentifier) {
-  std::string input = "function main\0";
+  std::string input = "function main";
 
   lexer::Lexer sproutLexer(&input);
 
@@ -37,4 +38,34 @@ TEST(LexerTests, TestFloat) {
   EXPECT_EQ(sproutLexer.tokens.size(), 1);
   EXPECT_EQ(sproutLexer.tokens[0].text, "3.14.f");
   EXPECT_EQ(sproutLexer.tokens[0].type, lexer::TokenType::FLOAT_LITERAL);
+}
+
+TEST(LexerTests, TestSpecial) { 
+    std::string input = "= * == >= <=";
+
+    std::vector expectedTokens = {
+        lexer::Token{"=", lexer::TokenType::ASSIGN},
+        lexer::Token{"*", lexer::TokenType::MUL},
+        lexer::Token{"==", lexer::TokenType::EQ},
+        lexer::Token{">=", lexer::TokenType::GEQ},
+        lexer::Token{"<=", lexer::TokenType::LEQ}
+    };
+
+    lexer::Lexer sproutLexer(&input);
+
+    sproutLexer.tokenize();
+
+    for (const lexer::Token& item : sproutLexer.tokens)
+    {
+        std::cout << "Text: " << item.text << "Type: " << static_cast<int>(item.type) << "\n";
+    }
+
+    for (const lexer::Token& item : expectedTokens)
+    {
+        std::cout << "Expected Text: " << item.text << "Expected Type: " << static_cast<int>(item.type) << "\n";
+    }
+
+    
+    EXPECT_EQ(sproutLexer.tokens.size(), 5);
+    EXPECT_EQ(sproutLexer.tokens, expectedTokens);
 }

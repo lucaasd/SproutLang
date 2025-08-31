@@ -24,6 +24,8 @@ public:
   void advance();
   void keywordOrIdentifier();
   void digit();
+  void special();
+  void comment();
   size_t index;
 };
 
