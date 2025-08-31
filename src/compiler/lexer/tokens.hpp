@@ -34,11 +34,8 @@ namespace lexer {
         GT,
         LEQ,
         GEQ,
-<<<<<<< HEAD
         ASSIGN,
         EQ
-=======
->>>>>>> 47a3363264cb32ac2dc79d5acd775f58d3e5c426
     };
 
     struct Token {
