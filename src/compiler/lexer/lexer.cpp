@@ -2,7 +2,6 @@
 #include "tokens.hpp"
 #include <cctype>
 #include <string>
-#include <iostream>
 
 namespace lexer {
 // clang-format off
@@ -145,8 +144,6 @@ namespace lexer {
 
             std::string key = input->substr(start, 2);
 
-            std::cout << "Key: " << key << "\n";
-
             auto it2 = lookaheadTokens.find(key);
 
             it2 != lookaheadTokens.end() ? tokens.push_back(Token{it2->first, it2->second}) : tokens.push_back(Token{it->first, it->second});
@@ -154,5 +151,47 @@ namespace lexer {
             tokens.push_back(Token{"unknown", TokenType::UNKNOWN});
         }
         advance();
+    }
+
+void Lexer::character()
+    {
+        if (CurrentChar() != '\'')
+        {
+            return;
+        }
+
+        advance();
+
+        std::vector<char> charContent;
+
+        while (CurrentChar() != '\'')
+        {
+            if (CurrentChar() == '\\') {
+                charContent.push_back(findEscape(std::string(1, CurrentChar())));
+            }
+
+            charContent.push_back(CurrentChar());
+        }
+
+        if (charContent.size() > 4)
+        {
+            tokens.push_back(Token{"unknown", TokenType::UNKNOWN});
+        }
+
+        tokens.push_back(Token{std::string(charContent.begin(), charContent.end()), TokenType::CHAR_LITERAL});
+    }
+
+    char Lexer::findEscape(std::string escape) {
+       int index = 1;
+
+       switch (escape[index]) {
+           case 'n': return 0x0A;
+           case '0': return 0x00;
+           case '\\': return 0x5C;
+           case '\'': return 0x27;
+           case '\"': return 0x22;
+           default: return 0xFF; // Unkown
+
+       }
     }
 } // namespace lexer

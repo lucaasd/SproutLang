@@ -26,6 +26,10 @@ public:
   void digit();
   void special();
   void comment();
+  void character();
+  void string(); 
+  static char findEscape(std::string escape);
+private:
   size_t index;
 };
 

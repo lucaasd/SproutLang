@@ -69,3 +69,27 @@ TEST(LexerTests, TestSpecial) {
     EXPECT_EQ(sproutLexer.tokens.size(), 5);
     EXPECT_EQ(sproutLexer.tokens, expectedTokens);
 }
+
+TEST(LexerTests, TestCharEscape) {
+    std::vector<std::string> inputs = {R"(\n)", R"(\0)", R"(\\)", R"(\')", R"(\")"};
+
+    std::vector<char> output = {lexer::Lexer::findEscape(inputs[0]), lexer::Lexer::findEscape(inputs[1]), lexer::Lexer::findEscape(inputs[2]), lexer::Lexer::findEscape(inputs[3]), lexer::Lexer::findEscape(inputs[4])};
+
+    std::vector<char> expected = {0x0A, 0x00, 0x5C, 0x27, 0x22};
+
+    for (const char item : output) {
+        std::cout << "Output: " << std::to_string(item);
+    }
+
+    for (const char item : expected) {
+        std::cout << "Expected: " << std::to_string(item);
+    }
+
+    EXPECT_EQ(output, expected);
+}
+
+
+TEST(LexerTests, TestChar)
+{
+    std::string input = "'a' '\n'";
+}
