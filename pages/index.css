@@ -1,0 +1,116 @@
+header {
+    text-align: center;
+    margin-top: 100px
+}
+
+:root {
+    --dark-green: #004400;
+    --light-green:  #00ff00;
+    --intermediate-green: #00aa00;
+    --btn-bar-margin: auto;
+    --btn-bar-color: transparent;
+}
+
+h1 {
+    font-size: 60pt;
+    line-height: 130%;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-image: linear-gradient(to left, var(--light-green), var(--dark-green));
+    animation: greenAnimation 3s infinite alternate, grow 12s infinite alternate;
+}
+
+h4 {
+    margin-top: -10px;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-image: linear-gradient(to left, var(--light-green), var(--dark-green));
+    animation: greenAnimation 3s infinite alternate;
+}
+
+* {
+    font-family: monospace;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+@keyframes greenAnimation {
+    0% {
+        --dark-green: #007700;
+        --light-green:  #00ff99;
+    }
+
+    50% {
+        --dark-green: #006600;
+        --light-green:  #00ff66;
+    }
+
+    100% {
+        --dark-green: #004400;
+        --light-green:  #00ff00;
+    }
+}
+
+@keyframes grow {
+    0% {
+        font-size: 60pt;
+    }
+
+    100% {
+        font-size: 63pt;
+    }
+}
+
+@keyframes grow2 {
+    0% {
+        font-size: 40pt;
+    }
+
+    100% {
+        font-size: 42pt;
+    }
+}
+
+@keyframes press {
+    0% {
+        --btn-bar-margin: auto;
+    }
+
+    100% {
+        --btn-bar-margin: 40%;
+    }
+}
+
+#get-started {
+    background-color: var(--light-green);
+    font-size: 40pt;
+    margin-top: 50px;
+    color: var(--dark-green);
+    padding: 7.5px;
+    border-radius: 15px;
+    border: var(--dark-green) solid;
+    box-shadow: 0 5px 0 0 var(--dark-green);
+    animation: grow2 6s infinite alternate ease-in-out;
+}
+
+#get-started:hover {
+    color: white;
+    background-color: var(--intermediate-green);
+    border: var(--light-green) solid;
+    box-shadow: 0 5px 0 0 var(--light-green);
+    animation: grow2 0.25s infinite alternate;
+}
+
+#get-started:active {
+    animation: press 0.5s ease-out;
+    --btn-bar-color: white;
+}
+
+#btn-bar {
+    margin-right: var(--btn-bar-margin);
+    background-color: var(--btn-bar-color);
+    display: block;
+}
